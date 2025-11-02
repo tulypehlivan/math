@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tulaymath</title>
+     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            padding: 20px;
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #1a73e8;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        label {
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            width: 120px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: calc(100% - 140px);
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #34a853;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2e8d4a;
+        }
+        .check-button {
+            background-color: #fbbc05;
+            color: #333;
+        }
+        .check-button:hover {
+            background-color: #e8a804;
+        }
+        .status-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .correct {
+            background-color: #e6ffed;
+            color: #34a853;
+            border: 1px solid #34a853;
+        }
+        .incorrect {
+            background-color: #ffe6e6;
+            color: #ea4335;
+            border: 1px solid #ea4335;
+        }
+        .summary-box {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- User Profile -->
+    <div id="profile-section">
+        <h2>User Profile</h2>
+        
+        <label for="userName">Your Name:</label>
+        <input type="text" id="userName" value="Guest">
+        
+        <button onclick="saveNameAndStart()">
+            Save Name & Start Session
+        </button>
+        <p id="welcomeMessage" style="margin-top: 15px; font-style: italic;"></p>
+    </div>
+
+    <hr>
+    
+
+    <h2>User Profile and Basic Calculator</h2>
+    
+    <label for="userName">Enter Your Name:</label>
+    <input type="text" id="userName" value=""><br><br>
+    
+    
+    
+    <hr>
+    <h2>Basic Calculator</h2> 
+    
+  <label for="calcInput1">Number one:</label>
+    <input type="number" id="calcInput1" value="0"><br><br>
+
+    <label for="calcInput2">Number two:</label>
+    <input type="number" id="calcInput2" value="0"><br><br>
+
+
+    <button onclick="addprocess()">
+        Add (+)
+    </button>
+    
+    <button onclick="subtractprocess()">
+        Subtract (-)
+    </button>
+
+    <hr>
+    
+    <p>
+        <strong>Result:</strong> 
+        <span id="result">0</span>
+    </p>
+<div id="quiz-section" style="display: none;">
+        <h2>Arithmetic Practice</h2> 
+        
+        <!-- Dynamically updated question -->
+        <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 20px;">
+            <!-- DÜZELTME: ID çakışmasını önlemek için 'number1' yerine 'quizNum1Display' kullanıldı. -->
+            Question: <span id="quizNum1Display">?</span> <span id="operatorSymbol">?</span> 
+            <!-- DÜZELTME: ID çakışmasını önlemek için 'number2' yerine 'quizNum2Display' kullanıldı. -->
+            <span id="quizNum2Display">?</span> = ?
+        </p>
+        
+        <label for="quizAnswerInput">Your Answer:</label>
+        <!-- DÜZELTME: ID çakışmasını önlemek için 'userAnswer' yerine 'quizAnswerInput' kullanıldı. -->
+        <input type="number" id="quizAnswerInput" value=""><br>
+
+        <!-- These buttons check the answer, they don't perform the calculation -->
+        <button onclick="checkAnswer('add')" class="check-button">
+            Check Answer (Addition)
+        </button>
+        <button onclick="checkAnswer('subtract')" class="check-button">
+            Check Answer (Subtraction)
+        </button>
+
+        <div id="feedback" class="status-box" style="display: none;"></div>
+    </div>
+    
+    <hr>
+    
+    <!-- 5. Summary: Statistics -->
+    <div id="summary-section">
+        <h2>Session Statistics</h2>
+        <div id="summary" class="summary-box">
+            <p>Session not started.</p>
+        </div>
+    </div>
+
+    <script>
+        function addprocess() {
+            // 1. HTML elements ID
+            const number1Input = document.getElementById('calcInput1'); 
+            const number2Input = document.getElementById('calcInput2'); 
+            const resultpage = document.getElementById('result');
+            
+            let number1 = parseFloat(number1Input.value) || 0;
+            let number2 = parseFloat(number2Input.value) || 0;
+
+            let total = number1 + number2; 
+            
+            resultpage.textContent = total; 
+        }
+
+        // subtraction function
+        function subtractprocess() {
+            // 1. entry data and results (the same HTML elements)
+            const number1Input = document.getElementById('calcInput1');
+            const number2Input = document.getElementById('calcInput2');
+            const resultpage = document
+            let number1 = parseFloat(number1Input.value) || 0;
+            let number2 = parseFloat(number2Input.value) || 0;
+
+            let difference = number1 - number2; 
+            
+            resultpage.textContent = difference; 
+        }
+    </script>
+
+
+<div id="quiz-section" style="display: none;">
+        <h2>Arithmetic Practice</h2> 
+        
+        <!-- Dynamically updated question -->
+        <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 20px;">
+            Question: <span id="number1">?</span> <span id="operatorSymbol">?</span> <span id="number2">?</span> = ?
+        </p>
+        
+        <label for="userAnswer">Your Answer:</label>
+        <input type="number" id="userAnswer" value=""><br>
+
+        <!-- These buttons check the answer, they don't perform the calculation -->
+        <button onclick="checkAnswer('add')" class="check-button">
+            Check Answer (Addition)
+        </button>
+        <button onclick="checkAnswer('subtract')" class="check-button">
+            Check Answer (Subtraction)
+        </button>
+
+        <div id="feedback" class="status-box" style="display: none;"></div>
+    </div>
+    
+    <hr>
+    
+    <!-- 5. Summary: Statistics -->
+    <div id="summary-section">
+        <h2>Session Statistics</h2>
+        <div id="summary" class="summary-box">
+            <p>Session not started.</p>
+        </div>
+    </div>
+
+    <script>
+        // Main object for State Management
+        let quizState = {
+            userName: 'Guest',
+            totalTrials: 0,
+            correctAnswers: 0,
+            totalTimeSpent: 0,
+            startTime: null,
+            currentOperator: null, // 'add' or 'subtract'
+            currentCorrectAnswer: null,
+            isQuizActive: false
+        };
+
+        // Define DOM Elements for easy access
+        const DOMElements = {
+            n1: document.getElementById('quizNum1Display'), // Yeni ID
+            n2: document.getElementById('quizNum2Display'), // Yeni ID
+            opSymbol: document.getElementById('operatorSymbol'),
+            userAnswer: document.getElementById('quizAnswerInput'), // Yeni ID
+            feedback: document.getElementById('feedback'),
+            summary: document.getElementById('summary'),
+            quizSection: document.getElementById('quiz-section'),
+            welcomeMessage: document.getElementById('welcomeMessage')
+        };
+
+
+
+        // --- GENERAL FUNCTIONS ---
+
+        /**
+         * 1. Saves the user's name and starts the practice session.
+         */
+        function saveNameAndStart() {
+              const userNameInput = document.getElementById('userName'); 
+            quizState.userName = userNameInput.value || 'Guest';
+            
+            DOMElements.welcomeMessage.textContent = `Welcome, ${quizState.userName}! Solve the next problem to begin.`;
+            DOMElements.quizSection.style.display = 'block';
+            quizState.isQuizActive = true;
+            // Generate the first problem and start the timer
+            generateProblem();
+        }
+
+        /**
+         * Generates a random addition or subtraction problem and displays it.
+         * Also starts the timer for time tracking.
+         */
+        function generateProblem() {
+            // Random numbers (between 1 and 20)
+            let num1 = Math.floor(Math.random() * 20) + 1;
+            let num2 = Math.floor(Math.random() * 20) + 1;
+            let operator = Math.random() < 0.5 ? 'add' : 'subtract';
+            let correctAnswer;
+            let operatorSymbol;
+
+            // Ensure subtraction results in a non-negative number
+            if (operator === 'subtract') {
+                if (num1 < num2) {
+                    // Swap numbers
+                    [num1, num2] = [num2, num1];
+                }
+                correctAnswer = num1 - num2;
+                operatorSymbol = '−'; // Using minus sign
+            } else {
+                correctAnswer = num1 + num2;
+                operatorSymbol = '+';
+            }
+
+            // Update global state
+            quizState.currentOperator = operator;
+            quizState.currentCorrectAnswer = correctAnswer;
+            
+            // Update question components
+            DOMElements.n1.textContent = num1;
+            DOMElements.n2.textContent = num2;
+            DOMElements.opSymbol.textContent = operatorSymbol;
+            DOMElements.userAnswer.value = ''; // Clear the answer box
+
+            // 3. Performance Tracking (Time): Start the timer
+            quizState.startTime = performance.now();
+            
+            // Clear feedback message
+            DOMElements.feedback.style.display = 'none';
+        }
+
+        /**
+         * 3. Performance Tracking: Checks the user's answer, updates statistics, and provides feedback.
+         * @param {string} buttonOperator - The operation represented by the button clicked ('add' or 'subtract').
+         */
+        function checkAnswer(buttonOperator) {
+            if (!quizState.isQuizActive) {
+                return; // Do nothing if the session hasn't started
+            }
+
+            const userAnswer = parseFloat(DOMElements.userAnswer.value);
+            const actualAnswer = quizState.currentCorrectAnswer;
+            const currentOperator = quizState.currentOperator;
+
+            // Check if the user pressed the correct operation button for the current problem
+            if (buttonOperator !== currentOperator) {
+                showFeedback(`Error: This was an ${currentOperator === 'add' ? 'Addition' : 'Subtraction'} problem. Wrong check button!`, false, 0);
+                return;
+            }
+
+            // Stop time tracking
+            const endTime = performance.now();
+            const timeElapsed = (endTime - quizState.startTime) / 1000; // In seconds
+
+            // Update Statistics (Accuracy and Time)
+            quizState.totalTrials += 1;
+            quizState.totalTimeSpent += timeElapsed;
+
+            let isCorrect = false;
+
+            if (userAnswer === actualAnswer) {
+                quizState.correctAnswers += 1;
+                isCorrect = true;
+                showFeedback("Correct! 🎉 Time Taken: " + timeElapsed.toFixed(2) + " seconds.", true, actualAnswer);
+            } else {
+                showFeedback(`Incorrect. 😔 The correct answer was ${actualAnswer}. Time Taken: ${timeElapsed.toFixed(2)} seconds.`, false, actualAnswer);
+            }
+
+            // Show summary statistics
+            updateSummary();
+
+            // Prepare for the new problem
+            // Start a new problem after a short delay
+            setTimeout(generateProblem, 1500);
+        }
+
+        /**
+         * Shows immediate feedback (correct/incorrect) to the user.
+         * @param {string} message - The message to display.
+         * @param {boolean} success - Whether the attempt was successful (correct).
+         */
+        function showFeedback(message, success) {
+            DOMElements.feedback.textContent = message;
+            DOMElements.feedback.style.display = 'block';
+            DOMElements.feedback.className = 'status-box ' + (success ? 'correct' : 'incorrect');
+        }
+
+       /**
+         * 5. Summary: Calculates and updates session statistics.
+         * **.
+         */
+        function updateSummary() {
+            const { totalTrials, correctAnswers, totalTimeSpent } = quizState;
+            
+            if (totalTrials === 0) {
+                DOMElements.summary.innerHTML = '<p>Session not started.</p>';
+                return;
+            }
+
+            // *** ***
+            const accuracy = (correctAnswers / totalTrials) * 100;
+            const averageTime = totalTimeSpent / totalTrials;
+
+            const summaryHTML = `
+                  <p><strong>Name:</strong> ${quizState.userName}</p>
+                <p><strong>Total Attempts:</strong> ${totalTrials}</p>
+                <p><strong>Correct Answers:</strong> ${correctAnswers}</p>
+                <p><strong>Accuracy:</strong> ${accuracy.toFixed(2)}%</p>
+                <p><strong>Average Time:</strong> ${averageTime.toFixed(2)} seconds/attempt</p>
+                <p style="margin-top: 10px;">The next question is coming. Maintain your speed!</p>
+            `;
+            DOMElements.summary.innerHTML = summaryHTML;
+        } 
+
+        // Initial load setup
+        document.addEventListener('DOMContentLoaded', () => {
+             updateSummary(); 
+             DOMElements.quizSection.style.display = 'none'; // Hide quiz section before starting
+        });
+    </script>
+    </body>
+</html>

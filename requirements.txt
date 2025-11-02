@@ -1,0 +1,6 @@
+# This project uses only standard Python libraries (random, time).
+# There are no external dependencies.
+
+#import random
+
+#import time
